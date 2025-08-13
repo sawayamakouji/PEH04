@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>デジタル研修生の発信まとめ</title>
+<style>
+:root{
+  --bg:#fffdfc; --card:#ffffff; --ink:#141b26; --muted:#5d6b80; --line:#e6eef6;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0c1116; --card:#111a24; --ink:#e6f0ff; --muted:#9fb1c8; --line:#233042; }
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{ margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.7 "Nunito","Quicksand","Hiragino Maru Gothic ProN","Yu Gothic UI","Segoe UI",Meiryo,system-ui,-apple-system,sans-serif; letter-spacing:.01em;}
+header{ position:sticky; top:0; z-index:30; padding:12px clamp(12px,2vw,16px) 16px; color:var(--ink); border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(circle at 12px 12px, rgba(0,0,0,.05) 0 6px, transparent 6px) 0 0/24px 24px,
+    linear-gradient(90deg, #ffd400, #00b5e2, #6f2dbd, #e31c24, #00af4d) bottom/100% 6px no-repeat,
+    var(--bg); }
+h1{ margin:0 0 4px 0; font-size:clamp(18px,2.3vw,26px); font-weight:900; letter-spacing:.02em}
+small{ color:var(--muted); font-size:clamp(11px,1.6vw,14px)}
+.wrap{ display:grid; grid-template-columns:280px 1fr; gap:16px; max-width:1200px; margin:14px auto; padding:0 clamp(10px,2vw,14px)}
+@media (max-width: 900px){ .wrap{grid-template-columns:1fr} }
+@media (max-width: 700px){ header{padding-bottom:12px} }
+aside{ position:sticky; top:76px; align-self:start; z-index:20}
+@media (max-width: 900px){ aside{ position:static } }
+.control{ background:var(--card); border:2px solid var(--line); border-radius:18px; padding:12px; box-shadow:0 3px 0 rgba(0,0,0,.06)}
+.search{ display:flex; gap:10px; margin-bottom:10px}
+.search input{ flex:1; padding:12px 14px; border-radius:999px; border:2px solid var(--line); background:linear-gradient(180deg,#fff, #f8fbff); color:var(--ink); font-weight:700; font-size:clamp(14px,2.5vw,16px) }
+.search input::placeholder{ color:#9aa8bb}
+.toolbar{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+button.toggle{ padding:8px 12px; border-radius:999px; border:2px solid var(--line); background:#f7fbff; color:var(--ink); cursor:pointer; font-weight:800; transition:transform .06s ease, box-shadow .06s ease; box-shadow:0 3px 0 rgba(0,0,0,.06); font-size:clamp(13px,2.3vw,15px) }
+button.toggle:hover{ transform:translateY(-1px)}
+button.toggle.active{ outline:3px solid #0000; box-shadow:0 0 0 3px rgba(0,0,0,.06), inset 0 0 0 9999px rgba(0,0,0,.02)}
+nav.toc{ display:flex; flex-direction:column; gap:8px; max-height:65vh; overflow:auto; padding-right:6px}
+nav.toc a{ padding:8px 12px; border-radius:999px; border:2px solid var(--line); color:var(--ink); text-decoration:none; font-weight:900; background:#fff; display:inline-flex; align-items:center; gap:8px; transition:transform .06s ease; box-shadow:0 3px 0 rgba(0,0,0,.06) }
+nav.toc a .dot{ width:10px; height:10px; border-radius:50%}
+nav.toc a:hover{ transform:translateY(-1px)}
+main{ min-width:0}
+section{ background:var(--card); border:2px solid var(--line); border-radius:20px; padding:0 0 10px; margin:12px 0; box-shadow:0 4px 0 rgba(0,0,0,.06); scroll-margin-top:96px; position:relative; }
+section::before{ content:""; position:absolute; left:-2px; top:-2px; bottom:-2px; width:10px; border-radius:18px 0 0 18px; background:var(--sec, #8ea5ff); }
+.cover{ position:relative; height:clamp(120px, 26vh, 180px); border-radius:18px 18px 0 0; overflow:hidden; border-bottom:2px solid var(--line);
+  background:
+    radial-gradient(circle at 12px 12px, rgba(255,255,255,.5) 0 6px, transparent 6px) 0 0/24px 24px,
+    linear-gradient(135deg, color-mix(in oklab, var(--sec), white 30%), color-mix(in oklab, var(--sec), black 15%)); }
+.cover a.cover-link{ position:absolute; inset:0; display:grid; grid-template-columns:1fr auto; grid-template-rows:auto 1fr auto; gap:6px 10px; align-items:center; padding:12px clamp(12px,2vw,16px); color:#fff; text-decoration:none; }
+.cover .site{ display:inline-flex; align-items:center; gap:8px; font-weight:900; background:rgba(0,0,0,.18); border:2px solid rgba(255,255,255,.35); padding:6px 10px; border-radius:999px; backdrop-filter: blur(2px); font-size:clamp(12px,2.2vw,13px) }
+.cover .favicon{ width:18px; height:18px; border-radius:4px; background:#fff }
+.cover .title{ grid-column:1/-1; font-size:clamp(16px,2.4vw,19px); font-weight:900; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-shadow:0 2px 6px rgba(0,0,0,.35); }
+.cover .date{ font-weight:800; opacity:.92; text-shadow:0 1px 3px rgba(0,0,0,.35); font-size:clamp(12px,2vw,14px) }
+.cover .cta{ justify-self:end; font-weight:900; background:rgba(255,255,255,.92); color:#222; padding:6px 10px; border-radius:999px; border:2px solid rgba(0,0,0,.1); font-size:clamp(12px,2vw,14px) }
+.bio{ margin:10px clamp(12px,2vw,16px) 6px; padding:10px 12px; background:#fff8d1; border:2px dashed #f2cf00; border-radius:12px; color:#3e2e00; font-weight:800; font-size:clamp(13px,2.4vw,15px) }
+section h2{ margin:8px clamp(12px,2vw,16px) 6px; font-size:clamp(18px,2.5vw,22px); font-weight:900; display:flex; align-items:center; gap:.5em }
+section h2 .chip{ font-size:12px; padding:2px 8px; border-radius:999px; border:2px solid var(--line); background:#fff; color:#333; font-weight:800; }
+ul.posts{ list-style:none; padding:0 clamp(12px,2vw,16px); margin:0 }
+ul.posts li{ padding:9px 6px; border-top:1px dashed var(--line) }
+ul.posts li:first-child{ border-top:0 }
+.post-date{ font-variant-numeric:tabular-nums; color:var(--muted); margin-right:.4em; font-weight:800 }
+.post-site{ color:var(--muted); margin-left:.5em; font-size:.95em }
+a{ color:#0d63c8; font-weight:800; text-decoration:none }
+a:hover{ text-decoration:underline }
+.hidden{ display:none !important }
+footer{ max-width:1200px; margin:20px auto 70px; padding:0 16px; color:var(--muted); font-size:14px}
+</style>
+</head>
+<body>
+<header>
+<h1><span class="emoji">🧱</span>デジタル研修生の発信まとめ</h1>
+<small>最終更新: 2025-08-13 22:12 JST｜イイね数は非表示｜並び替え: 最新 / 人名</small>
+</header>
+<div class="wrap">
+<aside>
+<div class="control">
+<div class="search"><input id="search" type="search" placeholder="🔎 さがす（人名・タイトル・日付）" aria-label="検索" /></div>
+<div class="toolbar">
+<button class="toggle active" data-sort="latest">🕒 最新</button>
+<button class="toggle" data-sort="alpha">🔤 人名</button>
+</div>
+<nav class="toc" id="toc">
+<a data-key="ヒロ" data-name="ヒロ" href="#ヒロ"><span class="dot"></span>ヒロ</a>
+<a data-key="はなざ" data-name="はなざ" href="#はなざ"><span class="dot"></span>はなざ</a>
+<a data-key="taku" data-name="taku" href="#taku"><span class="dot"></span>taku</a>
+<a data-key="horiken" data-name="Hori Ken" href="#horiken"><span class="dot"></span>Hori Ken</a>
+<a data-key="ゴマ" data-name="ゴマ" href="#ゴマ"><span class="dot"></span>ゴマ</a>
+<a data-key="べあ" data-name="べあ" href="#べあ"><span class="dot"></span>べあ</a>
+<a data-key="simo" data-name="simo" href="#simo"><span class="dot"></span>simo</a>
+<a data-key="yuna" data-name="YUNA" href="#yuna"><span class="dot"></span>YUNA</a>
+<a data-key="ayakanakagawa" data-name="Ayaka Nakagawa" href="#ayakanakagawa"><span class="dot"></span>Ayaka Nakagawa</a>
+<a data-key="ユキ" data-name="ユキ" href="#ユキ"><span class="dot"></span>ユキ</a>
+<a data-key="やまぴ" data-name="やまぴ" href="#やまぴ"><span class="dot"></span>やまぴ</a>
+</nav>
+</div>
+</aside>
+<main id="sections">
+<section id="ヒロ" data-key="ヒロ" data-name="ヒロ" data-latest="2025-08-13" style="--sec:hsl(295, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/glossy_sage1736/n/nc2ff8c9061ec" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">デジタルはアラビア語！わからないときは翻訳しよう！</div>
+    <div class="date">2025-08-13</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">デジタルは“外国語”。わからない時は翻訳ツールで意味をほぐし、現場で使える言葉に直す翻訳係。</div>
+<h2><span class="chip">BRICK</span>ヒロ</h2>
+<ul class="posts">
+<li data-text="デジタルはアラビア語！わからないときは翻訳しよう！ 2025-08-13"><span class="post-date">2025-08-13</span>— <a href="https://note.com/glossy_sage1736/n/nc2ff8c9061ec" target="_blank" rel="noopener noreferrer">デジタルはアラビア語！わからないときは翻訳しよう！</a> <span class="post-site">(note)</span></li>
+<li data-text="カメラ×aiで売り場を可視化するプロトタイプ開発宣言 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/glossy_sage1736/n/nfd5cfc8f5fcd" target="_blank" rel="noopener noreferrer">カメラ×AIで売り場を可視化するプロトタイプ開発宣言</a> <span class="post-site">(note)</span></li>
+<li data-text="【機械学習超入門】初心者でも実装できる分類アプリをサクッと作ろう！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/hiromu2001/items/f4923450f653707ed1fd" target="_blank" rel="noopener noreferrer">【機械学習超入門】初心者でも実装できる分類アプリをサクッと作ろう！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="デジタルで変える！現場発の3つのプロトタイピングアイデア 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/glossy_sage1736/n/n97ba252533f9" target="_blank" rel="noopener noreferrer">デジタルで変える！現場発の3つのプロトタイピングアイデア</a> <span class="post-site">(note)</span></li>
+<li data-text="glideを利用した棚卸アプリの作ろう！ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/hiromu2001/items/feb638b70fe0f7094037" target="_blank" rel="noopener noreferrer">Glideを利用した棚卸アプリの作ろう！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="職場の“どうにかならない”を話してみたら、みんな思ってた ～数字とデジタルの話～ 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://note.com/glossy_sage1736/n/ne4e6cce85f76" target="_blank" rel="noopener noreferrer">職場の“どうにかならない”を話してみたら、みんな思ってた ～数字とデジタルの話～</a> <span class="post-site">(note)</span></li>
+<li data-text="【pandas入門】売上csvをグラフ化＆chatgptで自動分析するbotを作成しよう！ 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/hiromu2001/items/f68f612d415cedb6636a" target="_blank" rel="noopener noreferrer">【pandas入門】売上CSVをグラフ化＆ChatGPTで自動分析するBotを作成しよう！</a> <span class="post-site">(Qiita)</span></li>
+</ul>
+</section>
+<section id="はなざ" data-key="はなざ" data-name="はなざ" data-latest="2025-08-13" style="--sec:hsl(164, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/hana100000/n/ndfdc988f0255" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">愛すべき無駄のために、無駄を減らすべく、無駄に頑張った若手中堅社会人の全記録</div>
+    <div class="date">2025-08-13</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">“ムダ・ムリ・ムラ”を楽しむために減らす――ゲーム感覚のUIを活かし、FlutterFlow×Firebaseで業務アプリを試作。</div>
+<h2><span class="chip">BRICK</span>はなざ</h2>
+<ul class="posts">
+<li data-text="愛すべき無駄のために、無駄を減らすべく、無駄に頑張った若手中堅社会人の全記録 2025-08-13"><span class="post-date">2025-08-13</span>— <a href="https://note.com/hana100000/n/ndfdc988f0255" target="_blank" rel="noopener noreferrer">愛すべき無駄のために、無駄を減らすべく、無駄に頑張った若手中堅社会人の全記録</a> <span class="post-site">(note)</span></li>
+<li data-text="デジタル餅屋、ツールの実用化のために、アイデアをこねまくる！～みんなのために美味しいお餅をつくりたいの巻～　 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/hana100000/n/nec286bbbdf50" target="_blank" rel="noopener noreferrer">デジタル餅屋、ツールの実用化のために、アイデアをこねまくる！～みんなのために美味しいお餅をつくりたいの巻～　</a> <span class="post-site">(note)</span></li>
+<li data-text="💛💙「イエベ向け？ブルベ向け？洋服のカラー判定アプリ」を作ろう!! 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/hana100000/items/e105d13d6427c77b7553" target="_blank" rel="noopener noreferrer">💛💙「イエベ向け？ブルベ向け？洋服のカラー判定アプリ」を作ろう!!</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="アナログ社会を追い越して走れ！全力疾走デジタルうさぎの巻 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/hana100000/n/n0fa72dae58cd" target="_blank" rel="noopener noreferrer">アナログ社会を追い越して走れ！全力疾走デジタルうさぎの巻</a> <span class="post-site">(note)</span></li>
+<li data-text="ゲームみたいに仕事したい！ level3【ノーコードツールglideでアプリ開発編】 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/hana100000/items/85c48527e429a605b4aa" target="_blank" rel="noopener noreferrer">ゲームみたいに仕事したい！ Level3【ノーコードツールGlideでアプリ開発編】</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="困り人、”職場の困り”を集めるの巻。 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://note.com/hana100000/n/n40829e978d2f" target="_blank" rel="noopener noreferrer">困り人、”職場の困り”を集めるの巻。</a> <span class="post-site">(note)</span></li>
+<li data-text="ゲームみたいに仕事したい！level2【chatgptを活用してアプリ開発編】 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/hana100000/items/4c942686cb076612e01a" target="_blank" rel="noopener noreferrer">ゲームみたいに仕事したい！Level2【ChatGPTを活用してアプリ開発編】</a> <span class="post-site">(Qiita)</span></li>
+</ul>
+</section>
+<section id="taku" data-key="taku" data-name="taku" data-latest="2025-08-13" style="--sec:hsl(98, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/tktk197197/n/n2e73d9a19350" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">アプリでチームに横串を！店舗内人材マッチングアプリを作成しました。</div>
+    <div class="date">2025-08-13</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">小売の現場で人手不足に挑む実務派。AppSheetで店舗内の人材マッチングアプリを作り、応援依頼・配員を可視化して連絡を1分に短縮。</div>
+<h2><span class="chip">BRICK</span>taku</h2>
+<ul class="posts">
+<li data-text="アプリでチームに横串を！店舗内人材マッチングアプリを作成しました。 2025-08-13"><span class="post-date">2025-08-13</span>— <a href="https://note.com/tktk197197/n/n2e73d9a19350" target="_blank" rel="noopener noreferrer">アプリでチームに横串を！店舗内人材マッチングアプリを作成しました。</a> <span class="post-site">(note)</span></li>
+<li data-text="部門間応援をもっとスムーズにするアプリを開発したい！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/tktk197197/n/n98910e460f14" target="_blank" rel="noopener noreferrer">部門間応援をもっとスムーズにするアプリを開発したい！</a> <span class="post-site">(note)</span></li>
+<li data-text="glitch × teachable machine で「商品認識 × 売場検索アプリ」を作ってみた！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/07191970t/items/1c47984833011626bdf8" target="_blank" rel="noopener noreferrer">Glitch × Teachable Machine で「商品認識 × 売場検索アプリ」を作ってみた！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="現場に刺さるアプリって？同僚に案をぶつけて返ってきたリアルな声 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/tktk197197/n/n7bd337b3d476" target="_blank" rel="noopener noreferrer">現場に刺さるアプリって？同僚に案をぶつけて返ってきたリアルな声</a> <span class="post-site">(note)</span></li>
+<li data-text="【紙だらけの作業場をなんとかしたい！】連絡事項の投稿、確認ができるアプリを作成しました。 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/07191970t/items/b63b13e14514e6d6e7e7" target="_blank" rel="noopener noreferrer">【紙だらけの作業場をなんとかしたい！】連絡事項の投稿、確認ができるアプリを作成しました。</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="職場の“ちょっと困ってること”を　　　　改めて見つめ直した話 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://note.com/tktk197197/n/n86517cefdbc4" target="_blank" rel="noopener noreferrer">職場の“ちょっと困ってること”を　　　　改めて見つめ直した話</a> <span class="post-site">(note)</span></li>
+<li data-text="ai 君が労ってくれる todo 管理アプリを作成しました。 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/07191970t/items/7634b8d64875a56cd37a" target="_blank" rel="noopener noreferrer">AI 君が労ってくれる Todo 管理アプリを作成しました。</a> <span class="post-site">(Qiita)</span></li>
+</ul>
+</section>
+<section id="horiken" data-key="horiken" data-name="Hori Ken" data-latest="2025-08-13" style="--sec:hsl(33, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/horigome2245/n/n616ff2a9e4d9" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">部下育成計画 ～&quot;デジタル日報&quot;で仕事への意識を変えろ！～</div>
+    <div class="date">2025-08-13</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">北海道のスーパーで主任。部下の“数字を見る力”を育てるため、スマホで書ける『デジタル日報』を開発し、現場の気づきと改善を回すリーダー。</div>
+<h2><span class="chip">BRICK</span>Hori Ken</h2>
+<ul class="posts">
+<li data-text="部下育成計画 ～&quot;デジタル日報&quot;で仕事への意識を変えろ！～ 2025-08-13"><span class="post-date">2025-08-13</span>— <a href="https://note.com/horigome2245/n/n616ff2a9e4d9" target="_blank" rel="noopener noreferrer">部下育成計画 ～&quot;デジタル日報&quot;で仕事への意識を変えろ！～</a> <span class="post-site">(note)</span></li>
+<li data-text="シフト間違いはもうやめて！顔認識して、その人のシフトを画面に表示させるアプリを作ってみた。 2025-07-11"><span class="post-date">2025-07-11</span>— <a href="https://qiita.com/horigome2245/items/170687afbe25abdeea11" target="_blank" rel="noopener noreferrer">シフト間違いはもうやめて！顔認識して、その人のシフトを画面に表示させるアプリを作ってみた。</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="職場の「デジタルリーダー」を目指す男の話～デジタルツール実装編～ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/horigome2245/n/n7559b9e56c28" target="_blank" rel="noopener noreferrer">職場の「デジタルリーダー」を目指す男の話～デジタルツール実装編～</a> <span class="post-site">(note)</span></li>
+<li data-text="vbaを使って商品の売上を自動で取得させるとガチ便利だった件 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/horigome2245/items/86781d7f933c4ae644f6" target="_blank" rel="noopener noreferrer">VBAを使って商品の売上を自動で取得させるとガチ便利だった件</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="職場の「デジタルリーダー」を目指す男の話～アイデア発起編～ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/horigome2245/n/nc4d113219924" target="_blank" rel="noopener noreferrer">職場の「デジタルリーダー」を目指す男の話～アイデア発起編～</a> <span class="post-site">(note)</span></li>
+<li data-text="lineで「商品の売上個数」を聞ける！ノーコードで作る売上応答bot【make×dify】 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/horigome2245/items/4b8f5e7ab3534ca9697c" target="_blank" rel="noopener noreferrer">LINEで「商品の売上個数」を聞ける！ノーコードで作る売上応答Bot【Make×Dify】</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="職場の「デジタルリーダー」を目指す男の話 ～職場の問題提起編～ 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://note.com/horigome2245/n/n08ca48764455" target="_blank" rel="noopener noreferrer">職場の「デジタルリーダー」を目指す男の話 ～職場の問題提起編～</a> <span class="post-site">(note)</span></li>
+</ul>
+</section>
+<section id="ゴマ" data-key="ゴマ" data-name="ゴマ" data-latest="2025-08-12" style="--sec:hsl(262, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/goma_create/n/nbe435175f78a" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">🏪 「言ったはず…」をゼロに！スーパー現場のDX改革 – イグナイト・クルーの挑戦</div>
+    <div class="date">2025-08-12</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">『言ったはず…』をゼロに。店舗コミュニケーションの仕組み化で現場DXを前に進める。</div>
+<h2><span class="chip">BRICK</span>ゴマ</h2>
+<ul class="posts">
+<li data-text="🏪 「言ったはず…」をゼロに！スーパー現場のdx改革 – イグナイト・クルーの挑戦 2025-08-12"><span class="post-date">2025-08-12</span>— <a href="https://note.com/goma_create/n/nbe435175f78a" target="_blank" rel="noopener noreferrer">🏪 「言ったはず…」をゼロに！スーパー現場のDX改革 – イグナイト・クルーの挑戦</a> <span class="post-site">(note)</span></li>
+<li data-text="【teachable machine × google ai studio】あいさつエネルギーチェッカーを作ってみた 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/goma-create/items/60f7a8066fc18cedf00f" target="_blank" rel="noopener noreferrer">【Teachable Machine × Google AI Studio】あいさつエネルギーチェッカーを作ってみた</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="「伝えたはずが伝わってない」をなくす。イグナイト・クルーで挑む、スマホアプリによる現場改革への挑戦！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/goma_create/n/n2e7337c0a7a2" target="_blank" rel="noopener noreferrer">「伝えたはずが伝わってない」をなくす。イグナイト・クルーで挑む、スマホアプリによる現場改革への挑戦！</a> <span class="post-site">(note)</span></li>
+<li data-text="【glide × googleスプレッドシート】「ミーティングシェアアプリ」を作ってみた 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/goma-create/items/91cf67297e873980cbd" target="_blank" rel="noopener noreferrer">【Glide × Googleスプレッドシート】「ミーティングシェアアプリ」を作ってみた</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="イグナイト・クルーの挑戦！～現場のリアルから磨いたプロトタイプアイデアたち～ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/goma_create/n/nf9abada00028" target="_blank" rel="noopener noreferrer">イグナイト・クルーの挑戦！～現場のリアルから磨いたプロトタイプアイデアたち～</a> <span class="post-site">(note)</span></li>
+<li data-text="【dify × chatgpt】 クレーム（お申し出）返答文を自動生成するチャットフローアプリを作った話 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/goma-create/items/00bd2d7c3959afefd4a8" target="_blank" rel="noopener noreferrer">【Dify × ChatGPT】 クレーム（お申し出）返答文を自動生成するチャットフローアプリを作った話</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="オペレーション　チーム「イグナイト・クルー」を育成せよ！ 2025-06-11"><span class="post-date">2025-06-11</span>— <a href="https://note.com/goma_create/n/n741a0f02e11f" target="_blank" rel="noopener noreferrer">オペレーション　チーム「イグナイト・クルー」を育成せよ！</a> <span class="post-site">(note)</span></li>
+</ul>
+</section>
+<section id="べあ" data-key="べあ" data-name="べあ" data-latest="2025-08-12" style="--sec:hsl(196, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/mute_parrot7294/n/nf181c15acb9f" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">お惣菜店員、歩いた道を振り返る。</div>
+    <div class="date">2025-08-12</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">お惣菜売場の現場視点で、日々の気づきと改善を歩みで振り返るコツコツ派。</div>
+<h2><span class="chip">BRICK</span>べあ</h2>
+<ul class="posts">
+<li data-text="お惣菜店員、歩いた道を振り返る。 2025-08-12"><span class="post-date">2025-08-12</span>— <a href="https://note.com/mute_parrot7294/n/nf181c15acb9f" target="_blank" rel="noopener noreferrer">お惣菜店員、歩いた道を振り返る。</a> <span class="post-site">(note)</span></li>
+<li data-text="お惣菜店員、地図を手に、朝焼けの中を走りだす！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/mute_parrot7294/n/n0dca302cfc59" target="_blank" rel="noopener noreferrer">お惣菜店員、地図を手に、朝焼けの中を走りだす！</a> <span class="post-site">(note)</span></li>
+<li data-text="【palanar】お客さま用！オススメの関連品を紹介ar！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/sakura330/items/f6986744730ee84e01f2" target="_blank" rel="noopener noreferrer">【PalanAR】お客さま用！オススメの関連品を紹介AR！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="お惣菜店員、波を越えて丘をあるく。 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/mute_parrot7294/n/n003cb13bbeaf" target="_blank" rel="noopener noreferrer">お惣菜店員、波を越えて丘をあるく。</a> <span class="post-site">(note)</span></li>
+<li data-text="【glide】　新人スタッフ用！すぐ確認できるお助けアプリ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/sakura330/items/e8e3563435c0b97b8505" target="_blank" rel="noopener noreferrer">【Glide】　新人スタッフ用！すぐ確認できるお助けアプリ</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="お惣菜店員、心の深海に潜る。 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://note.com/mute_parrot7294/n/n571c5dc292df" target="_blank" rel="noopener noreferrer">お惣菜店員、心の深海に潜る。</a> <span class="post-site">(note)</span></li>
+<li data-text="【dify】 新人スタッフ用！手元で確認q&amp;a bot！ 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/sakura330/items/fed69f0ebb1e52ce73bc" target="_blank" rel="noopener noreferrer">【Dify】 新人スタッフ用！手元で確認Q&amp;A Bot！</a> <span class="post-site">(Qiita)</span></li>
+</ul>
+</section>
+<section id="simo" data-key="simo" data-name="simo" data-latest="2025-08-12" style="--sec:hsl(65, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/simo_note/n/nf47f5fde5867" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">初心者がデジタルに向き合い３か月！ 何が作れて、何が残ったのでしょう？</div>
+    <div class="date">2025-08-12</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">デジタル初心者から3か月。作れたもの・残せたものを検証し、次の一歩へ。</div>
+<h2><span class="chip">BRICK</span>simo</h2>
+<ul class="posts">
+<li data-text="初心者がデジタルに向き合い３か月！ 何が作れて、何が残ったのでしょう？ 2025-08-12"><span class="post-date">2025-08-12</span>— <a href="https://note.com/simo_note/n/nf47f5fde5867" target="_blank" rel="noopener noreferrer">初心者がデジタルに向き合い３か月！ 何が作れて、何が残ったのでしょう？</a> <span class="post-site">(note)</span></li>
+<li data-text="北海道のスーパー畜産部門、aiで販売戦略を革新します！〜やること宣言〜 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/simo_note/n/nc15cd4d458b2" target="_blank" rel="noopener noreferrer">北海道のスーパー畜産部門、AIで販売戦略を革新します！〜やること宣言〜</a> <span class="post-site">(note)</span></li>
+<li data-text="挑戦！⇒失敗！3dスキャンデータでar売り場シミュレーション！blender+planaar活用術 2025-07-08"><span class="post-date">2025-07-08</span>— <a href="https://qiita.com/siomiso66/items/6eaf68d99ce12526c961" target="_blank" rel="noopener noreferrer">挑戦！⇒失敗！3DスキャンデータでAR売り場シミュレーション！Blender+PlanaAR活用術</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="google workspaceで業務革命！現役スーパー社員が作った価格調査アプリ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/siomiso66/items/63c133b731fb4fe24f54" target="_blank" rel="noopener noreferrer">Google Workspaceで業務革命！現役スーパー社員が作った価格調査アプリ</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="課題に悩むのは時間切れ！　　　　　　そのアイデアそろそろ形にしませんか？ 2025-06-24"><span class="post-date">2025-06-24</span>— <a href="https://note.com/simo_note/n/n31904233b02c" target="_blank" rel="noopener noreferrer">課題に悩むのは時間切れ！　　　　　　そのアイデアそろそろ形にしませんか？</a> <span class="post-site">(note)</span></li>
+<li data-text="difyで爆速開発！テレビ番組から旬のネタで販促セリフを自動生成する「呼び込み君」aiアプリ 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/siomiso66/items/fbd55a725ebe6401f3dd" target="_blank" rel="noopener noreferrer">Difyで爆速開発！テレビ番組から旬のネタで販促セリフを自動生成する「呼び込み君」AIアプリ</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="その問題もっと教えてください！　職場に突撃、情熱をもって悩みを聞く！ 2025-06-09"><span class="post-date">2025-06-09</span>— <a href="https://note.com/simo_note/n/n47fb33fd7c60" target="_blank" rel="noopener noreferrer">その問題もっと教えてください！　職場に突撃、情熱をもって悩みを聞く！</a> <span class="post-site">(note)</span></li>
+</ul>
+</section>
+<section id="yuna" data-key="yuna" data-name="YUNA" data-latest="2025-08-12" style="--sec:hsl(131, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/lucky_toad2964/n/n4a829c01d986" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">AIチャットボットで仕事の困りごとを解決しよう</div>
+    <div class="date">2025-08-12</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">AIチャットボットで業務の困りごとを解決。相談の入口づくりと手順の自動化で、日々の負担を軽く。</div>
+<h2><span class="chip">BRICK</span>YUNA</h2>
+<ul class="posts">
+<li data-text="aiチャットボットで仕事の困りごとを解決しよう 2025-08-12"><span class="post-date">2025-08-12</span>— <a href="https://note.com/lucky_toad2964/n/n4a829c01d986" target="_blank" rel="noopener noreferrer">AIチャットボットで仕事の困りごとを解決しよう</a> <span class="post-site">(note)</span></li>
+<li data-text="課題解決に向けて歩き出します🐈 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/lucky_toad2964/n/n6f21a06b059e" target="_blank" rel="noopener noreferrer">課題解決に向けて歩き出します🐈</a> <span class="post-site">(note)</span></li>
+<li data-text="職場の「ちょっと不便」を見逃さない。業務改善に向けた3つの挑戦 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/lucky_toad2964/n/n24a31079ec1e" target="_blank" rel="noopener noreferrer">職場の「ちょっと不便」を見逃さない。業務改善に向けた3つの挑戦</a> <span class="post-site">(note)</span></li>
+<li data-text="【vba × chatgpt】コピペ作業から解放！売上を1分で自動転記+メール送信するマクロを作ってみた！ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/yuuuna04/items/0c8373756e18ec1b2d7f" target="_blank" rel="noopener noreferrer">【VBA × ChatGPT】コピペ作業から解放！売上を1分で自動転記+メール送信するマクロを作ってみた！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="【dify × chatgpt】明日の予定は何？スケジュールが一発でわかるbotを作ってみた！ 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/yuuuna04/items/b5344f970aadeda4f75d" target="_blank" rel="noopener noreferrer">【Dify × ChatGPT】明日の予定は何？スケジュールが一発でわかるBotを作ってみた！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="できることから、一歩ずつ。職場の“困りごと”と向き合った話 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://note.com/lucky_toad2964/n/n266552cab708" target="_blank" rel="noopener noreferrer">できることから、一歩ずつ。職場の“困りごと”と向き合った話</a> <span class="post-site">(note)</span></li>
+</ul>
+</section>
+<section id="ayakanakagawa" data-key="ayakanakagawa" data-name="Ayaka Nakagawa" data-latest="2025-08-12" style="--sec:hsl(0, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/deft_coyote8132/n/n07a146281fe7" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">現場から始めるDX ― レジアシストアプリ完成までの記録</div>
+    <div class="date">2025-08-12</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">レジアシストアプリを現場発で開発・検証。会計〜接客のムダを減らす“手元で使える”仕組みづくり。</div>
+<h2><span class="chip">BRICK</span>Ayaka Nakagawa</h2>
+<ul class="posts">
+<li data-text="現場から始めるdx ― レジアシストアプリ完成までの記録 2025-08-12"><span class="post-date">2025-08-12</span>— <a href="https://note.com/deft_coyote8132/n/n07a146281fe7" target="_blank" rel="noopener noreferrer">現場から始めるDX ― レジアシストアプリ完成までの記録</a> <span class="post-site">(note)</span></li>
+<li data-text="【現場からのdx】人手不足を“手作りアプリ”で乗り越える 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/deft_coyote8132/n/n3672d30a654d" target="_blank" rel="noopener noreferrer">【現場からのDX】人手不足を“手作りアプリ”で乗り越える</a> <span class="post-site">(note)</span></li>
+<li data-text="【teachable machine】「この金券使える？」がすぐに分かる！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/Nakagawa11210/items/653f3fb786a200472358" target="_blank" rel="noopener noreferrer">【Teachable Machine】「この金券使える？」がすぐに分かる！</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="人手不足の現場から生まれた、業務効率化のアイデア 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/deft_coyote8132/n/n7ffc7fe2d964" target="_blank" rel="noopener noreferrer">人手不足の現場から生まれた、業務効率化のアイデア</a> <span class="post-site">(note)</span></li>
+<li data-text="【glide】すぐに全員確認できる！現場用にカスタマイズした連絡帳アプリ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/Nakagawa11210/items/96fae26f3ae1723da501" target="_blank" rel="noopener noreferrer">【Glide】すぐに全員確認できる！現場用にカスタマイズした連絡帳アプリ</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="「それ、ずっと思ってた！」―チームの声から見えたレジの現場— 2025-06-11"><span class="post-date">2025-06-11</span>— <a href="https://note.com/deft_coyote8132/n/n98c928be29a1" target="_blank" rel="noopener noreferrer">「それ、ずっと思ってた！」―チームの声から見えたレジの現場—</a> <span class="post-site">(note)</span></li>
+<li data-text="シフト、変換します！ 2025-06-11"><span class="post-date">2025-06-11</span>— <a href="https://qiita.com/Nakagawa11210/items/53c3f600a87d99fb1193" target="_blank" rel="noopener noreferrer">シフト、変換します！</a> <span class="post-site">(Qiita)</span></li>
+</ul>
+</section>
+<section id="ユキ" data-key="ユキ" data-name="ユキ" data-latest="2025-08-11" style="--sec:hsl(327, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/yamanayukie/n/n7e46b727cf0b" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">『叶えたい』をカタチに。QRコードによる業務改善奮闘記</div>
+    <div class="date">2025-08-11</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">『叶えたい』をQRで実装。店頭オペの手戻りを減らすQRワークフローで業務改善に挑戦。</div>
+<h2><span class="chip">BRICK</span>ユキ</h2>
+<ul class="posts">
+<li data-text="『叶えたい』をカタチに。qrコードによる業務改善奮闘記 2025-08-11"><span class="post-date">2025-08-11</span>— <a href="https://note.com/yamanayukie/n/n7e46b727cf0b" target="_blank" rel="noopener noreferrer">『叶えたい』をカタチに。QRコードによる業務改善奮闘記</a> <span class="post-site">(note)</span></li>
+<li data-text="いよいよ『叶えたい』を実現していこう！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/yamanayukie/n/n7cd067962fb7" target="_blank" rel="noopener noreferrer">いよいよ『叶えたい』を実現していこう！</a> <span class="post-site">(note)</span></li>
+<li data-text="🧍 teachable machineで作る！初心者でもできる姿勢推定アプリ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/ami2003-1-8yu/items/a5556c5d06b7c0ed7665" target="_blank" rel="noopener noreferrer">🧍 Teachable Machineで作る！初心者でもできる姿勢推定アプリ</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="『叶えたい』が、少しずつ前に進みはじめた話 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/yamanayukie/n/n029e4bc335b6" target="_blank" rel="noopener noreferrer">『叶えたい』が、少しずつ前に進みはじめた話</a> <span class="post-site">(note)</span></li>
+<li data-text="【glide】コード不要！職場の「イイネ！」集めて、笑顔いっぱいアプリ😃 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/ami2003-1-8yu/items/e81a8f6becebd47af3ca" target="_blank" rel="noopener noreferrer">【Glide】コード不要！職場の「イイネ！」集めて、笑顔いっぱいアプリ😃</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="もう資料探しで時間をムダにしない！difyで作る「ファイル検索チャットボット」 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/ami2003-1-8yu/items/32ef6f4816a4735afd62" target="_blank" rel="noopener noreferrer">もう資料探しで時間をムダにしない！Difyで作る「ファイル検索チャットボット」</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="職場の「困った…」を聞いたら、解決策はteamsにあった！ 2025-06-11"><span class="post-date">2025-06-11</span>— <a href="https://note.com/yamanayukie/n/ne1e3fc23c1ff" target="_blank" rel="noopener noreferrer">職場の「困った…」を聞いたら、解決策はTeamsにあった！</a> <span class="post-site">(note)</span></li>
+</ul>
+</section>
+<section id="やまぴ" data-key="やまぴ" data-name="やまぴ" data-latest="2025-08-10" style="--sec:hsl(229, 82%, 52%)">
+<div class="cover">
+  <a class="cover-link" href="https://note.com/norikun53/n/nbe1e52cfcdc6" target="_blank" rel="noopener noreferrer">
+    <span class="site"><img class="favicon" src="https://note.com/favicon.ico" alt=""/> note</span>
+    <div class="title">忘れちゃいけませんよ！契約書提出リマインドメールツールを作ってみた</div>
+    <div class="date">2025-08-10</div>
+    <span class="cta">読む →</span>
+  </a>
+</div>
+<div class="bio">“忘れちゃいけませんよ！”を自動で。契約書提出のリマインドで抜け漏れゼロを目指す。</div>
+<h2><span class="chip">BRICK</span>やまぴ</h2>
+<ul class="posts">
+<li data-text="忘れちゃいけませんよ！契約書提出リマインドメールツールを作ってみた 2025-08-10"><span class="post-date">2025-08-10</span>— <a href="https://note.com/norikun53/n/nbe1e52cfcdc6" target="_blank" rel="noopener noreferrer">忘れちゃいけませんよ！契約書提出リマインドメールツールを作ってみた</a> <span class="post-site">(note)</span></li>
+<li data-text="困りごとの解決へ・・いよいよ乗り出していくのだ！ 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://note.com/norikun53/n/necca0106d694" target="_blank" rel="noopener noreferrer">困りごとの解決へ・・いよいよ乗り出していくのだ！</a> <span class="post-site">(note)</span></li>
+<li data-text="ちょっと待て！その契約書は収入印紙いりませんか？～契約書の画像で印紙要不要を判断するツールを作ってみた 2025-07-10"><span class="post-date">2025-07-10</span>— <a href="https://qiita.com/fyuatan64/items/7ab2814b1d9399166443" target="_blank" rel="noopener noreferrer">ちょっと待て！その契約書は収入印紙いりませんか？～契約書の画像で印紙要不要を判断するツールを作ってみた</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="ほんとの困りごとの解決方法を探したい！ひとり悩んでいても進めないのだ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://note.com/norikun53/n/nafbb35ab6b7c" target="_blank" rel="noopener noreferrer">ほんとの困りごとの解決方法を探したい！ひとり悩んでいても進めないのだ</a> <span class="post-site">(note)</span></li>
+<li data-text="「計上日近づいてるよっ！！忘れちゃだめよ！！」～文系人間　power　automate　desktopでリマインド大作戦決行⁉ 2025-06-26"><span class="post-date">2025-06-26</span>— <a href="https://qiita.com/fyuatan64/items/362337cf75eb233cf979" target="_blank" rel="noopener noreferrer">「計上日近づいてるよっ！！忘れちゃだめよ！！」～文系人間　Power　Automate　Desktopでリマインド大作戦決行⁉</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="契約書の行方を探せ！～契約書管理自動化への挑戦～文系人間、頑張る 2025-06-12"><span class="post-date">2025-06-12</span>— <a href="https://qiita.com/fyuatan64/items/70cde67275582c75a4b9" target="_blank" rel="noopener noreferrer">契約書の行方を探せ！～契約書管理自動化への挑戦～文系人間、頑張る</a> <span class="post-site">(Qiita)</span></li>
+<li data-text="困りごとの解決のヒントは身近にある～直接話を聞くことは重要なのだ 2025-06-11"><span class="post-date">2025-06-11</span>— <a href="https://note.com/norikun53/n/n3a7dab723e92" target="_blank" rel="noopener noreferrer">困りごとの解決のヒントは身近にある～直接話を聞くことは重要なのだ</a> <span class="post-site">(note)</span></li>
+</ul>
+</section>
+</main>
+</div>
+<footer>
+📱 レスポンシブ対応・全員ユニーク色・イイね非表示。Workers不要の“直書き自己紹介”版。
+</footer>
+
+<script>
+(function(){
+  const sectionsWrap = document.getElementById('sections');
+  const toc = document.getElementById('toc');
+  const search = document.getElementById('search');
+  const toggles = document.querySelectorAll('button.toggle');
+
+  function getSections(){ return Array.from(sectionsWrap.querySelectorAll('section')); }
+  function getTocLinks(){ return Array.from(toc.querySelectorAll('a')); }
+
+  function sortSections(mode){
+    toggles.forEach(b=>b.classList.toggle('active', b.dataset.sort===mode));
+    const secs = getSections();
+    secs.sort((a,b)=>{
+      if(mode==='alpha'){
+        return a.dataset.name.localeCompare(b.dataset.name, 'ja');
+      }else{
+        const at = a.dataset.latest ? Date.parse(a.dataset.latest) : 0;
+        const bt = b.dataset.latest ? Date.parse(b.dataset.latest) : 0;
+        if(bt !== at) return bt - at;
+        return a.dataset.name.localeCompare(b.dataset.name, 'ja');
+      }
+    });
+    secs.forEach(s=>sectionsWrap.appendChild(s));
+    // Reorder TOC to match
+    const orderKeys = secs.map(s=>s.dataset.key);
+    const links = getTocLinks();
+    links.sort((a,b)=>orderKeys.indexOf(a.dataset.key) - orderKeys.indexOf(b.dataset.key));
+    links.forEach(a=>toc.appendChild(a));
+  }
+
+  function applySearch(q){
+    const qn = q.trim().toLowerCase();
+    const secs = getSections();
+    const links = getTocLinks();
+    secs.forEach(sec=>{
+      const name = (sec.dataset.name||'').toLowerCase();
+      const items = Array.from(sec.querySelectorAll('li'));
+      let visibleInThis = false;
+      items.forEach(li=>{
+        const t = (li.dataset.text||li.textContent||'').toLowerCase();
+        const show = !qn || t.includes(qn) || name.includes(qn);
+        li.classList.toggle('hidden', !show);
+        if(show) visibleInThis = true;
+      });
+      sec.classList.toggle('hidden', !visibleInThis);
+      const link = links.find(a=>a.dataset.key===sec.dataset.key);
+      if(link) link.classList.toggle('hidden', !visibleInThis);
+    });
+  }
+
+  toggles.forEach(b=>b.addEventListener('click', ()=>sortSections(b.dataset.sort)));
+  search.addEventListener('input', ()=>applySearch(search.value));
+
+  // initial
+  sortSections('latest');
+  applySearch('');
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', function(e){
+      const id = this.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if(!el) return;
+      e.preventDefault();
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+      history.pushState(null, '', '#' + id);
+    });
+  });
+})();
+</script>
+
+</body></html>
