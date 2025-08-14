@@ -26,7 +26,48 @@ small{ color:var(--muted); font-size:clamp(11px,1.6vw,14px)}
 @media (max-width: 900px){ .wrap{grid-template-columns:1fr} }
 @media (max-width: 700px){ header{padding-bottom:12px} }
 aside{ position:sticky; top:76px; align-self:start; z-index:20}
-@media (max-width: 900px){ aside{ position:static } }
+@media (max-width: 900px){
+  aside{
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    height: 100%;
+    background: var(--bg);
+    transition: left 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    padding-top: 76px;
+    overflow-y: auto;
+  }
+  aside.is-open {
+    left: 0;
+  }
+  .toggle-aside-button {
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: var(--ink);
+    cursor: pointer;
+    z-index: 40;
+  }
+}
+@media (min-width: 901px) {
+  .toggle-aside-button {
+    display: none;
+  }
+  aside {
+    position: sticky;
+    left: auto;
+    width: auto;
+    height: auto;
+    padding-top: 0;
+    box-shadow: none;
+  }
+}
 .control{ background:var(--card); border:2px solid var(--line); border-radius:18px; padding:12px; box-shadow:0 3px 0 rgba(0,0,0,.06)}
 .search{ display:flex; gap:10px; margin-bottom:10px}
 .search input{ flex:1; padding:12px 14px; border-radius:999px; border:2px solid var(--line); background:linear-gradient(180deg,#fff, #f8fbff); color:var(--ink); font-weight:700; font-size:clamp(14px,2.5vw,16px) }
@@ -88,6 +129,7 @@ footer{ max-width:1200px; margin:20px auto 70px; padding:0 16px; color:var(--mut
 <header>
 <h1><span class="emoji">🧱</span>デジタル研修生の発信まとめ</h1>
 <small>最終更新: 2025-08-13 22:12 JST｜並び替え: 最新 / 人名</small>
+<button id="toggle-aside" class="toggle-aside-button">☰</button>
 </header>
 <div class="wrap">
 <aside>
@@ -341,6 +383,22 @@ footer{ max-width:1200px; margin:20px auto 70px; padding:0 16px; color:var(--mut
       history.pushState(null, '', '#' + id);
     });
   });
+
+  // New: Toggle aside visibility
+  const toggleAsideButton = document.getElementById('toggle-aside');
+  const asideElement = document.querySelector('aside');
+
+  if (toggleAsideButton && asideElement) {
+    toggleAsideButton.addEventListener('click', () => {
+      asideElement.classList.toggle('is-open');
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        asideElement.classList.remove('is-open');
+      }
+    });
+  }
 })();
 </script>
 
